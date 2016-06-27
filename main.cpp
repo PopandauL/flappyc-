@@ -21,6 +21,7 @@ char wall[walls][Y];
 
 void rwl(short a, short b)
 {
+    //Sets console "cursor" to certain coordinates
     COORD pos = {a, b};
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(output, pos);
@@ -28,9 +29,10 @@ void rwl(short a, short b)
 
 void GetWalls()
 {
+    //Reads walls from "Walls.dat"
     short z;
 
-    for (int i=0;i<3;i++)
+    for (int i=0;i<walls;i++)
         for (int j=0;j<Y;j++)
         {
             in>>z;
@@ -42,12 +44,12 @@ void GetWalls()
         }
 }
 
-void init()
+void Init()
 {
 
     GetWalls();
 
-    //Declare initial map
+    //Declares initial map
     for (int i=0;i<Y;i++)
         for (int j=0;j<X;j++)
             mep[i][j]=BEC;
@@ -55,7 +57,7 @@ void init()
     mep[(int)y][(int)x]=FACE;
 
 
-    //Draw initial map
+    //Draws initial map
     for (int i=0;i<Y;i++)
     {
         for (int j=0;j<X;j++)
@@ -69,6 +71,7 @@ void init()
 
 void AccelBird()
 {
+    //Sets bird speed on the vertical axis
     if (GetAsyncKeyState(VK_UP)&0x8000)
     {
         if (vspeed>-1)
@@ -94,6 +97,7 @@ void AccelBird()
 
 void UpdateBird()
 {
+    //Updates "bird" position by overwriting current and last positions
     if ((int)y1!=(int)y)
     {
         mep[(int)y][(int)x]=FACE;
@@ -114,7 +118,7 @@ void UpdateBird()
 
 void UpdateWall()
 {
-
+    //Makes wall move + other stuff
     if (wx<0)
     {
         sc++;
@@ -137,8 +141,7 @@ void UpdateWall()
             {
                 mep[i][(int)wx+1]=BEC;
 
-                    if (wx==x&&wall[w][i]==-80&&i==y
-                        )
+                    if (wx==x&&wall[w][i]==-80&&i==y)
                         mep[i][(int)wx]=FACE;
                     else
                         mep[i][(int)wx]=wall[w][i];
@@ -156,7 +159,7 @@ void UpdateWall()
 
 int main()
 {
-    init();
+    Init();
 
     clock_t t;
     t = clock();
